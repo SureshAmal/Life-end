@@ -1,0 +1,84 @@
+@font-face {
+    font-family: "transcity";
+    src: url("fonts/transcity.otf") format("opentype");
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+body,
+html {
+    background-color: transparent;
+    color: white;
+    overflow: hidden;
+    cursor: none;
+}
+
+heading {
+    font-size: 6.5rem;
+    font-family: transcity;
+}
+
+container {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    width: 100vw;
+    justify-content: center;
+    align-items: center;
+    overflow-wrap: break-word;
+}
+
+movingbox {
+    height: 1rem;
+    width: 1rem;
+    position: fixed;
+    right: 1rem;
+    top: 1rem;
+    background: white;
+    opacity: 1;
+    border-radius: 50%;
+}
+
+deadsong {
+    display: none;
+    font-size: 2rem;
+    overflow-wrap: break-word;
+    overflow-y: auto;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+cursordiv {
+    width: 1.5rem;
+    height: 1.5rem;
+    background-color: transparent;
+    position: fixed;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+    will-change: transform;
+    z-index: 100;
+    opacity: 0;
+    svg {
+        transform: translate(-50%, -50%);
+        will-change: transform;
+    }
+}
+
+/*Shader css*/
+shader-art {
+    display: block;
+    position: fixed;
+    inset: 0;
+    width: 100vw;
+    height: 100vh;
+    height: 100dvh;
+    z-index: -1;
+    pointer-events: none;
+}

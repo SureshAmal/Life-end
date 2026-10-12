@@ -1,0 +1,121 @@
+<!doctype html>
+<html>
+    <head>
+        <script src="./anime.umd.min.js"></script>
+        <link rel="stylesheet" href="./styles.css" />
+        <script type="module">
+            // shader-art for simple shader config not so I don't have to setup myself
+            import { ShaderArt } from "https://cdn.skypack.dev/shader-art";
+            ShaderArt.register();
+        </script>
+    </head>
+    <body>
+        <cursordiv>
+            <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="3rem"
+                height="3rem"
+                viewBox="0 0 1792 1564"
+                fill="white"
+            >
+                <path
+                    d="M888 735C893 735 898 735 903 736C1025 739 1118 836 1156 945C1168 978 1180 1018 1178 1053C1177 1092 1161 1128 1133 1155C1101 1184 1062 1196 1020 1186C1004 1183 988 1177 973 1173C951 1168 929 1164 906 1164C881 1163 840 1165 816 1174C759 1193 711 1201 662 1157C633 1131 616 1095 614 1056C612 1034 616 1014 621 992C652 862 746 743 888 735Z"
+                />
+                <path
+                    d="M1047 374C1212 378 1219 698 1051 712C882 705 883 383 1047 374Z"
+                />
+                <path
+                    d="M731 375C896 359 921 681 756 711C730 714 701 706 681 690C605 630 599 497 655 422C674 397 700 380 731 375Z"
+                />
+                <path
+                    d="M1267 631C1286 628 1311 634 1327 645C1391 687 1389 784 1351 843C1329 876 1304 894 1266 902C1203 910 1162 863 1154 805C1148 761 1160 716 1187 680C1207 654 1234 636 1267 631Z"
+                />
+                <path
+                    d="M503 631C527 628 552 636 572 649C659 704 672 879 551 903C477 910 425 839 416 773C407 711 434 641 503 631Z"
+                />
+            </svg>
+        </cursordiv>
+        <movingbox></movingbox>
+        <container>
+            <heading>Goodbye, everyone!</heading>
+            <deadsong>
+                Hello, If you are looking for me then I am dead.
+                <br />
+                <br />
+                I try to live and enjoy the life's moments, but no matter hard I
+                try, my mind never want to live in this world.
+                <br />
+                <br />
+                <i style="color: red; font-size: 3rem">
+                    I’m so sorry to my family for taking this step and leaving
+                    them alone
+                </i>
+                <br />
+                <br />
+                I'm sorry to all of everyone who believed I can achieve
+                something great in life, but in the end I only able to end my
+                life.
+                <br />
+                <br />
+                This is most stupid & selfish thing a person can do in there
+                life, and there may be more beautiful things to explore in life.
+                <br />
+                <br />
+                I had try to live in this world but I was never belong to this
+                world.
+                <br />
+                <br />
+                <b style="color: purple">
+                    I cannot thank my family enough for all the love they have
+                    given me.
+                </b>
+            </deadsong>
+        </container>
+
+        <shader-art autoplay dpr="0.5">
+            <script type="vert">
+                precision mediump float;
+                attribute vec4 position;
+                void main() {
+                  gl_Position = position;
+                }
+            </script>
+
+            <script type="frag">
+                precision mediump float;
+                uniform vec2 resolution;
+                uniform float time;
+
+                float hash(vec2 p) {
+                  p = fract(p * vec2(0.1031, 0.1030));
+                  p += dot(p, p.yx + 33.33);
+                  return fract((p.x + p.y) * p.x);
+                }
+
+                float noise(vec2 p) {
+                  vec2 i = floor(p);
+                  vec2 f = fract(p);
+                  f = f * f * (3.0 - 2.0 * f);
+                  float a = hash(i);
+                  float b = hash(i + vec2(1.0, 0.0));
+                  float c = hash(i + vec2(0.0, 1.0));
+                  float d = hash(i + vec2(1.0, 1.0));
+                  return mix(mix(a, b, f.x), mix(c, d, f.x), f.y);
+                }
+
+                void main() {
+                  vec2 uv = gl_FragCoord.xy / resolution;
+                  vec2 p = uv * vec2(resolution.x / resolution.y, 1.0);
+                  float t = time * 0.3;
+
+                  float v = noise(p * 4.0 + vec2(t, t * 0.7)) * 0.6
+                          + noise(p * 8.0 - vec2(t * 0.5, t)) * 0.4;
+
+                  vec3 col = mix(vec3(0.0), vec3(0.8, 0.0, 0.05), smoothstep(0.3, 0.8, v));
+                  gl_FragColor = vec4(col, 1.0);
+                }
+            </script>
+        </shader-art>
+        <script src="./script.js" type="module"></script>
+    </body>
+</html>
